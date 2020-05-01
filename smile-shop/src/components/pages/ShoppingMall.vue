@@ -49,40 +49,48 @@
                            <div>{{item.goodsName}}</div>
                            <div>￥{{item.price | moneyFilter}}(￥{{item.mallPrice  | moneyFilter}})</div>
                        </div>
-                   </swiper-slide> 
+                   </swiper-slide>  
                 </swiper>
             </div>
         </div>
-        <swiperDefault></swiperDefault>
+
+        <!-- 楼层 -->
+        <floor-component :floorData="floor1" :floorTitle="floorName.floor1"></floor-component>
+        <floor-component :floorData="floor2" :floorTitle="floorName.floor2"></floor-component>
+        <floor-component :floorData="floor3" :floorTitle="floorName.floor3"></floor-component>
+        <!--Hot Area-->    
     </div>
     
 </template>
 
 <script>
  import axios from 'axios'
- import SwiperDefault from '../swiper/swiperDefault'
+ 
+ //import SwiperDefault from '../swiper/swiperDefault'
  import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
  import 'swiper/css/swiper.css'
+ import floorComponent from '../component/floorComponent'
 
     export default {
         data() {
             return {
                 swiperOption:{
-                    slidesPerView:3
+                    slidesPerView:3,
+                     
                 },
                 msg:'Shopping Mall',
                 locationIcon: require('../../assets/images/location.png'),
-                bannerPicArray:[],
-                category:[],
-                adBanner:'',//广告条
-                recommendGoods:[],
-                // floor1:[],
-                // floor2:[],
-                // floor3:[],
-                // floorName:{},
+                bannerPicArray:[], // 轮播图片
+                category:[],       //商品类别标签栏
+                adBanner:'',       //广告图片
+                recommendGoods:[], //推荐商品
+                floor1:[],         //楼层1的数据
+                floor2:[],         //楼层1的数据
+                floor3:[],         //楼层1的数据
+                floorName:{}       //楼层名称
             }
         },
-        components:{Swiper,SwiperSlide,SwiperDefault},
+        components:{Swiper,SwiperSlide,floorComponent},
         created(){
             axios({
                 url:'https://www.easy-mock.com/mock/5eab84dc0a92d726eae93bf2/SmileVue/index',
@@ -95,6 +103,9 @@
                     this.adBanner = response.data.data.advertesPicture.PICTURE_ADDRESS;
                     this.bannerPicArray= response.data.data.slides;
                     this.recommendGoods = response.data.data.recommend;
+                    this.floor1 = response.data.data.floor1;
+                    this.floor2 = response.data.data.floor2;
+                    this.floor3 = response.data.data.floor3;
                 }
             })
             .catch(error=>{

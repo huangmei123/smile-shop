@@ -1,9 +1,10 @@
 <template>
   <div >
-      <swiper>
+      <swiper :options="swiperOption">
         <swiper-slide class="swiper-slide" v-for="(item, index) in slide" :key="index">
            Slide {{item}} 
         </swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
   </div>
 </template>
@@ -12,9 +13,15 @@
    import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
     import 'swiper/css/swiper.css'
     export default {
-        data() {
+       data() {
             return {
-                slide: [1,2,3,4,5,6]
+                slide: [1,2,3,4,5,6],
+                swiperOption:{
+    direction:'vertical',
+    pagination:{
+        el:'.swiper-pagination'
+    }
+}
             }
         },
         components:{Swiper,SwiperSlide}
