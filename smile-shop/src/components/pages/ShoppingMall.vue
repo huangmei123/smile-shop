@@ -58,7 +58,23 @@
         <floor-component :floorData="floor1" :floorTitle="floorName.floor1"></floor-component>
         <floor-component :floorData="floor2" :floorTitle="floorName.floor2"></floor-component>
         <floor-component :floorData="floor3" :floorTitle="floorName.floor3"></floor-component>
+        
         <!--Hot Area-->    
+       <!--Hot Area-->
+        <div class="hot-area">
+            <div class="hot-title">热卖商品</div>
+            <div class="hot-goods">
+                <van-list>
+                    <van-row gutter="20">
+                        <van-col span="12" v-for="( item, index) in hotGoods" :key="index">
+                            <div>{{item.name}}</div>
+                        </van-col>
+                    </van-row>
+                </van-list>
+            </div>
+        </div>
+        
+       
     </div>
     
 </template>
@@ -70,8 +86,10 @@
  import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
  import 'swiper/css/swiper.css'
  import floorComponent from '../component/floorComponent'
-
-    export default {
+ import { toMoney } from '@/filter/moneyFilter.js'
+ import goodsInfo from '../component/goodsInfoComponent'
+ import url from '@/serviceAPI.config.js'
+ export default {
         data() {
             return {
                 swiperOption:{
@@ -87,13 +105,20 @@
                 floor1:[],         //楼层1的数据
                 floor2:[],         //楼层1的数据
                 floor3:[],         //楼层1的数据
-                floorName:{}       //楼层名称
+                floorName:{},      //楼层名称
+                hotGoods:[],  //热卖商品
+            }
+        },
+        //编写filter属性，toMoney可以随便起名，但是必须和引入时一样
+        filters:{
+            moneyFilter(money){
+                return toMoney(money)
             }
         },
         components:{Swiper,SwiperSlide,floorComponent},
         created(){
             axios({
-                url:'https://www.easy-mock.com/mock/5eab84dc0a92d726eae93bf2/SmileVue/index',
+                url: url.getShoppingMallInfo,
                 method:'get',
             })
             .then(response=>{
@@ -106,6 +131,9 @@
                     this.floor1 = response.data.data.floor1;
                     this.floor2 = response.data.data.floor2;
                     this.floor3 = response.data.data.floor3;
+                    this.floorName = response.data.data.floorName;
+                    this.hotGoods = response.data.data.hotGoods;
+
                 }
             })
             .catch(error=>{

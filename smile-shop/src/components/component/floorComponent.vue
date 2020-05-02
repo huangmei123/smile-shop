@@ -26,6 +26,7 @@
 </template>
 
 <script>
+
     export default {
         props:['floorData','floorTitle'],
         data() {
@@ -36,8 +37,12 @@
             }
         },
         created(){
-            
+            // axios({
+            //     url:'https://www.easy-mock.com/mock/5eab84dc0a92d726eae93bf2/SmileVue/index',
+            //     method:'get',
+            // })
         },
+        //监听传递过来的变化，变化的时候给图片复制操作。
         watch:{
             floorData:function(val){
                 console.log(this.floorData)
