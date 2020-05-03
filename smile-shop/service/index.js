@@ -3,10 +3,16 @@ const app = new Koa()
 const mongoose = require('mongoose')
 const {connect , initSchemas} = require('./database/init.js')
 const Router = require('koa-router')
+const bodyParser = require('koa-bodyparser')
+const cors = require('koa2-cors')
+
+app.use(bodyParser())
+app.use(cors())
 
 let user = require('./appApi/user.js')
 
 //装载所有子路由
+//egg.js
 let router = new Router()
 router.use('/user',user.routes())
 

@@ -33,8 +33,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
-// import url from '@/serviceAPI.config.js'
+import axios from 'axios'
+import url from '@/serviceAPI.config.js'
     export default {
         data() {
             return {
