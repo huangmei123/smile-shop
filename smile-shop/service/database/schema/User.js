@@ -11,6 +11,8 @@ const userSchema = new Schema({
     createAt:{type:Date,default:Date.now()},
     lastLoginAt:{type:Date,default:Date.now()}
 
+},{
+    collation:'user'
 })
 
 //每次存储数据的时后都要执行

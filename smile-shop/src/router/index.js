@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ShoppingMall from '@/components/pages/ShoppingMall'
+import ShoppingMall from '@/components/pages/Register'
 import Register from '@/components/pages/Register'
 Vue.use(Router)
 

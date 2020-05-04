@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const db = "mongodb://localhost/smile-db"
+const db = "mongodb://localhost:27017/smile-vue"
 const glob = require('glob')
 const {resolve} = require('path')
 
