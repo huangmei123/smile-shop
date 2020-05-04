@@ -9,13 +9,14 @@ const cors = require('koa2-cors')
 app.use(bodyParser())
 app.use(cors())
 
+let goods = require('./appApi/goods.js')
 let user = require('./appApi/user.js')
 
 //装载所有子路由
 //egg.js
 let router = new Router()
 router.use('/user',user.routes())
-
+router.use('/goods',goods.routes())
 
 //加载路由中间件
 app.use(router.routes())
