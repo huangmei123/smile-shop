@@ -52,4 +52,18 @@ router.get('/insertAllCategory',async(ctx)=>{
     ctx.body="开始导入数据....."
 })
 
+//**获取商品详情信息的接口
+//先获得前端得到的参数goodsid，然后得到Goods模型，用模型的findOne方法查找数据，查找出来后进行返回。
+router.post('/getDetailGoodsInfo',async(ctx)=>{
+    try{
+        let goodsId = ctx.request.body.goodsId
+        const Goods = mongoose.model('Goods')
+        console.log(goodsId)
+        let result= await Goods.findOne({ID:goodsId}).exec()
+        ctx.body={code:200,message:result}
+    }catch(error){
+        ctx.body={code:500,message:error}
+    }
+})
+
 module.exports=router;
