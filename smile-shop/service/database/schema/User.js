@@ -29,5 +29,18 @@ userSchema.pre('save', function(next){
     })
 })
 
+//密码对比的方法
+userSchema.methods={
+    comparePassword:(_password,password)=>{
+        return new Promise((resolve,reject)=>{
+            bcrypt.compare(_password,password,(err,isMatch)=>{
+                if(!err) resolve(isMatch)
+                else reject(err)
+            })
+        })
+    }
+}
+
+
 //发布模型
 mongoose.model('User',userSchema)
