@@ -11,20 +11,32 @@
     <div class="topimage-div">
         <img :src="goodsInfo.IMAGE1" width="100%"/>
     </div>
-    <div class="goods-name">{{goodsInfo.NAME}}</div>
-    <div class="goods-price">价格：{{goodsInfo.PRESENT_PRICE}}</div>
+    <!-- 格式化价格 -->
+    <div class="goods-name">{{goodsInfo.NAME}} </div>
+    <div class="goods-price">价格 ：￥{{goodsInfo.PRESENT_PRICE | moneyFilter}}元</div>
     <div>
-        <van-tabs >
+        <van-tabs swipeable sticky>
             <van-tab title="商品详情">
-            <div class="detail" v-html="goodsInfo.DETAIL">
+                <div class="detail" v-html="goodsInfo.DETAIL">
+                    
 
-            </div>
+                </div>
             </van-tab>
-        <van-tab title="评价">
-            正在制作中
-        </van-tab>
+            <van-tab title="评论">
+                评论制作中
+            </van-tab>
         </van-tabs>
 
+        </div>
+
+<!-- 底部购买按钮 -->
+    <div class="goods-bottom">
+        <div>
+            <van-button size="large" type="primary" @click="addGoodsToCart">加入购物车</van-button>
+        </div>
+        <div>
+            <van-button size="large" type="danger">直接购买</van-button>
+        </div>
     </div>
 </div>
 </template>
@@ -33,11 +45,17 @@
     import axios from 'axios'
     import url from '@/serviceAPI.config.js'
     import { Toast } from 'vant'
+    import {toMoney} from '@/filter/moneyFilter.js'
     export default {
         data() {
             return {
                 goodsId: '',
                 goodsInfo:{},   //商品详细数据
+            }
+        },
+        filters:{
+            moneyFilter(money){
+                return toMoney(money)
             }
         },
         created(){
@@ -74,14 +92,30 @@
     }
 </script>
 
+
 <style scoped>
-   .detail{
-     font-size:0px;
-    }
     .goods-name{
         background-color: #fff;
-    }
+    } 
     .goods-price{
         background-color: #fff;
+    }
+    .detail {
+        font-size:0px;
+    }
+    .goods-bottom{
+        position:fixed;
+        bottom:0px;
+        left:0px;
+        background-color: #FFF;
+        width:100%;
+        display: flex;
+        flex-direction: row;
+        flex-flow:nowrap;
+    }
+
+    .goods-bottom > div {
+        flex:1;
+        padding:5px;
     }
 </style>
