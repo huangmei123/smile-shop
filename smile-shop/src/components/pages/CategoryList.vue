@@ -1,56 +1,64 @@
 <template>
     <div>
         <div class="navbar-div">
-             <van-nav-bar   title="类别列表" /> 
+            <van-nav-bar title="类别列表" />
         </div>
+
         <div>
-            <van-row>
-                <van-col span="6">
-                   <div id="leftNav">
+          <van-row>
+              <van-col span="6">
+                  <div id="leftNav">
                        <ul>
-                           <!-- template里的方法进行class动态绑定 -->
                            <li @click="clickCategory(index,item.ID)" :class="{categoryActice:categoryIndex==index}" v-for="(item , index) in category" :key="index">
                                {{item.MALL_CATEGORY_NAME}}
                            </li>
                        </ul>
                   </div>
-                </van-col>
-                <van-col span="18">
-                    <!-- 使用vant的tabs组件实现联动 -->
-                    <div class="tabCategorySub">
+                 
+              </van-col>
+              <van-col span="18">
+
+                  <div class="tabCategorySub">
                       <van-tabs v-model="active" @click="onClickCategorySub">
                           <van-tab v-for="(item,index) in categorySub" :key="index" :title="item.MALL_SUB_NAME">
 
                           </van-tab>
                       </van-tabs>
                   </div>
-                    <div id="list-div">
-                        <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
-                            <van-list
-                                v-model="loading"
-                                :finished="finished"
-                                @load="onLoad"
-                                >
-                                <div class="list-item" v-for="(item,index) in goodList" :key="index">
-                                    <div class="list-item-img"><img :src="item.IMAGE1" width="100%"/></div>
-                                    <div class="list-item-text">
-                                        <div>{{item.NAME}}</div>
-                                        <div class="">￥{{item.ORI_PRICE}}</div>
-                                    </div>
+                  
+                <div id="list-div">
+                    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
+                        <van-list v-model="loading" :finished="finished" @load="onLoad">
+                            <div class="list-item" @click="goGoodsInfo(item.ID)" v-for="(item,index) in goodList" :key="index">
+                                <div class="list-item-img">
+                                    <img :src="item.IMAGE1" 
+                                    width="100%"
+                                    :onerror="errorImg"                                    
+                                     />
+                                    
+                                    
+                                   
                                 </div>
-                            </van-list>
-                        </van-pull-refresh>
-                    </div>
-                </van-col>
-            </van-row>
+                                <div class="list-item-text">
+                                    <div>{{item.NAME}}</div>                                    
+                                    <div>￥{{item.ORI_PRICE | moneyFilter}}</div>                                    
+                                 </div>
+                            </div>
+                        </van-list>
+                    </van-pull-refresh>
+                </div>
+              </van-col>
+          </van-row>  
         </div>
+
     </div>
 </template>
 
 <script>
 import axios from 'axios'
 import url from '@/serviceAPI.config.js'
-    export default {
+import {toMoney} from '@/filter/moneyFilter.js'
+export default {
         data() {
             return {
                 category:[], 
@@ -64,7 +72,16 @@ import url from '@/serviceAPI.config.js'
                
                 page:1,          //商品列表的页数
                 goodList:[],     //商品信息
-                categorySubId:'' //商品子分类ID
+                categorySubId:'' ,//商品子分类ID
+               //失效图品的替补
+                errorImg:'this.src="' + require('@/assets/images/errorimg.png') + '"'   ,  //错误图片显示路径
+
+            }
+        },
+        //关于价格过滤器，filters属性的编写
+        filters:{
+            moneyFilter(money){
+                return toMoney(money)
             }
         },
 
@@ -182,6 +199,10 @@ import url from '@/serviceAPI.config.js'
                 this.onLoad()
 
             },
+            //跳转到商品详细页
+            goGoodsInfo(id){
+                this.$router.push({name:'Goods',params:{goodsId:id}})
+            }
         }
     }
 </script>
