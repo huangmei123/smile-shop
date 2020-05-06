@@ -24,6 +24,19 @@
                           </van-tab>
                       </van-tabs>
                   </div>
+                    <div id="list-div">
+                        <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
+                            <van-list
+                                v-model="loading"
+                                :finished="finished"
+                                @load="onLoad"
+                                >
+                                <div class="list-item" v-for="item in list" :key="item">
+                                    {{item}}
+                                </div>
+                            </van-list>
+                        </van-pull-refresh>
+                    </div>
                 </van-col>
             </van-row>
         </div>
@@ -37,7 +50,13 @@ import url from '@/serviceAPI.config.js'
         data() {
             return {
                 category:[], 
-                categoryIndex:0, //反白操作，控制导航变白，默认第一个类别是白色的
+                categoryIndex:0, 
+                active:0,
+                categorySub:[],
+                list:[],
+                loading:false,   //上拉加载使用
+                finished:false,  //上拉加载是否没有了？
+                isRefresh:false, //下拉加载
             }
         },
 
@@ -48,7 +67,9 @@ import url from '@/serviceAPI.config.js'
         mounted(){
             //让左侧当行适应页面高度
             let winHeight = document.documentElement.clientHeight
-            document.getElementById("leftNav").style.height= winHeight-46 +'px'
+            document.getElementById('leftNav').style.height=winHeight-46 +'px'
+            document.getElementById('list-div').style.height=winHeight-90 +'px'
+
         },
         methods:{
             getCategory() {
@@ -95,6 +116,21 @@ import url from '@/serviceAPI.config.js'
                 .catch(error=>{
                     console.log(error)
                 })
+            },
+             //上拉加载方法
+            onLoad(){
+                setTimeout(()=>{
+                   this.categorySubId = this.categorySubId?this.categorySubId:this.categorySub[0].ID
+                   this.getGoodList()
+                },1000)
+            },
+            //下拉刷新方法
+            onRefresh(){
+                setTimeout(()=>{
+                    this.isRefresh = false;
+                    this.list=[];
+                    this.onLoad()
+                },500)
             },
         }
     }
