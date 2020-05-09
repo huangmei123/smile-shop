@@ -97,12 +97,13 @@
                 //如果没有返回undeifnd，如果有返回第一个查找到的数据
                 let isHaveGoods=cartInfo.find(cart=>cart.goodsId==this.goodsId)
                 console.log(isHaveGoods)
+                console.log(this.goodsInfo)
                 if(!isHaveGoods){
                     //没有商品直接添加到数组中
                     //重新组成添加到购物车的信息
                     let newGoodsInfo={
                         goodsId:this.goodsInfo.ID,
-                        Name:this.goodsInfo.Name,
+                        name:this.goodsInfo.Name,
                         price:this.goodsInfo.PRESENT_PRICE,
                         image:this.goodsInfo.IMAGE1,
                         count:1

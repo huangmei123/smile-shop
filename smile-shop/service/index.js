@@ -10,12 +10,14 @@ app.use(bodyParser())
 app.use(cors())
 
 let goods = require('./appApi/goods.js')
+let home = require('./appApi/home.js')
 let user = require('./appApi/user.js')
 
 //装载所有子路由
 //egg.js
 let router = new Router()
 router.use('/user',user.routes())
+router.use('/home',home.routes())
 router.use('/goods',goods.routes())
 
 //加载路由中间件
@@ -26,14 +28,14 @@ app.use(router.allowedMethods())
 ;(async () =>{
     await connect()
     initSchemas()
-    const User = mongoose.model('User')
+    /*const User = mongoose.model('User')
     let oneUser = new User({userName:'jspang13',password:'123456'})
 
     oneUser.save().then(()=>{
-        console.log('插入成功')
+        console.log('插入成功')*/
 
     })
-let  users = await  User.findOne({}).exec()
+//let  users = await  User.findOne({}).exec()
 
 console.log('------------------')
 console.log(users)

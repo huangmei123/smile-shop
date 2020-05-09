@@ -65,7 +65,7 @@ export default {
                 categoryIndex:0, 
                 active:0,
                 categorySub:[],
-                list:[],
+                //list:[],
                 loading:false,   //上拉加载使用
                 finished:false,  //上拉加载是否没有了？
                 isRefresh:false, //下拉加载
@@ -119,8 +119,8 @@ export default {
             clickCategory(index,categoryId){
                 this.categoryIndex=index
                 this.page=1
-                    this.finished = false
-                    this.goodList=[]
+                this.finished = false
+                this.goodList=[]
                 this.getCategorySubByCategoryId(categoryId)
 
             },
@@ -156,8 +156,10 @@ export default {
             //下拉刷新方法
             onRefresh(){
                 setTimeout(()=>{
-                    this.isRefresh = false;
-                    this.list=[];
+                    this.isRefresh=false;
+                    this.finished = false;
+                    this.goodList=[]
+                    this.page=1
                     this.onLoad()
                 },500)
             },
@@ -180,7 +182,7 @@ export default {
                             this.finished = true;
                     }
                     this.loading=false;
-                    console.log(this.finished)
+                   // console.log(this.finished)
                 })
                 .catch(error=>{
                     console.log(error)
