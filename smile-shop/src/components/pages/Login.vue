@@ -44,7 +44,7 @@ import url from '@/serviceAPI.config.js'
                 password: '',
                 openLoading:false,//是否开启用户的Loading
                 usernameErrorMsg:'',//当用户名和密码为空，不给用户任何操作，只有按下注册按钮才进行检查提示
-                passwordErrorMsg:'',
+                passwordErrorMsg:'', //当密码出现错误时的提示信息
             }
         },
         created(){
@@ -57,9 +57,14 @@ import url from '@/serviceAPI.config.js'
             goBack() {
                 this.$router.go(-1)   
             },
-            registerAction(){
-                this.checkForm() && this.axiosRegisterUser()
+
+            loginAction(){
+                this.checkForm() && this.axiosLoginUser()
             },
+
+           /* registerAction(){
+                this.checkForm() && this.axiosRegisterUser()
+            },*/
 
             //编写axios用户注册方法
             //防重复的设置openLoading 

@@ -115,7 +115,7 @@
                 return toMoney(money)
             }
         },
-        components:{Swiper,SwiperSlide,floorComponent},
+        components:{Swiper,SwiperSlide,floorComponent,goodsInfo},
         created(){
             axios({
                 url: url.getShoppingMallInfo,
